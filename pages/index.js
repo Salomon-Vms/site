@@ -814,6 +814,190 @@ function Page({
               <Workshops delay={400} stars={stars.hackclub.stargazerCount} />
             </Box>
           </Box>
+	// Project components
+	const Sprig = ({ delay, stars, game, gameImage, gameImage1 }) => (
+	  <Card className="mt-8">
+	    <CardContent className="p-6">
+	      <h3 className="text-xl font-bold mb-2">Sprig</h3>
+	      <p>A game engine for building retro games</p>
+	      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+	    </CardContent>
+	  </Card>
+	)
+	const Onboard = ({ stars, delay }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Onboard</h3>
+      <p>Get started with Hack Club</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+    </CardContent>
+  </Card>
+)
+
+const Haxidraw = ({ stars, delay }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Haxidraw</h3>
+      <p>A drawing robot for hackers</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+    </CardContent>
+  </Card>
+)
+
+const Sinerider = ({ delay, stars }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Sinerider</h3>
+      <p>A game about riding sine waves</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+    </CardContent>
+  </Card>
+)
+
+const SprigConsole = ({ delay, stars, consoleCount }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Sprig Console</h3>
+      <p>A physical game console for Sprig games</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+      <div className="mt-1 text-sm">{consoleCount} consoles shipped</div>
+    </CardContent>
+  </Card>
+)
+
+const Workshops = ({ delay, stars }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Workshops</h3>
+      <p>Learn to code with our interactive workshops</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+    </CardContent>
+  </Card>
+)
+
+const Clubs = () => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Clubs</h3>
+      <p>Start a coding club at your school</p>
+    </CardContent>
+  </Card>
+)
+
+const Hackathons = ({ delay, data, stars }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Hackathons</h3>
+      <p>Find and organize hackathons near you</p>
+      <div className="mt-2 text-sm">⭐ {stars} stars</div>
+      <div className="mt-1 text-sm">{data?.length || 0} upcoming hackathons</div>
+    </CardContent>
+  </Card>
+)
+
+const HCB = ({ data }) => (
+  <Card className="mt-8">
+    <CardContent className="p-6">
+      <h3 className="text-xl font-bold mb-2">Hack Club Bank</h3>
+      <p>Financial tools for student organizations</p>
+      <div className="mt-2 text-sm">{data[0]}</div>
+    </CardContent>
+  </Card>
+)
+
+const MailingList = () => (
+  <div className="py-16 bg-gray-50">
+    <div className="max-w-3xl mx-auto px-4 text-center">
+      <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
+      <p className="mb-6">Join our mailing list to get updates about Hack Club</p>
+      <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+        <input type="email" placeholder="Your email" className="px-4 py-2 border rounded-md flex-1" />
+        <Button type="submit">Subscribe</Button>
+      </form>
+    </div>
+  </div>
+)
+
+export default function Page({
+  hackathonsData = [],
+  bankData = ["💰 $0 raised"],
+  slackData = { total_members_count: 0 },
+  gitHubData = [],
+  gitHubDataLength = 0,
+  consoleCount = 0,
+  stars = {
+    sprig: { stargazerCount: 0 },
+    onboard: { stargazerCount: 0 },
+    blot: { stargazerCount: 0 },
+    sinerider: { stargazerCount: 0 },
+    hackclub: { stargazerCount: 0 },
+    hackathons: { stargazerCount: 0 },
+  },
+  game = [],
+  gameTitle = [],
+  events = [],
+  carouselCards = [],
+}) {
+  const [gameImage, setGameImage] = useState("")
+  const [gameImage1, setGameImage1] = useState("")
+  const [reveal, setReveal] = useState(false)
+  const [hover, setHover] = useState(true)
+  const [github, setGithub] = useState(0)
+  const [slackKey, setSlackKey] = useState(0)
+  const [key, setKey] = useState(0)
+  const [count, setCount] = useState(0)
+
+  const router = useRouter()
+  const { asPath = "" } = router || {}
+
+  const jsConfetti = useRef()
+  const spotlightRef = useRef()
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      jsConfetti.current = new JSConfetti()
+    }
+  }, [])
+
+  const easterEgg = () => {
+    alert("Hey, you typed the Konami Code!")
+
+    jsConfetti.current?.addConfetti({
+      confettiColors: [
+        // Hack Club colours!
+        "#ec3750",
+        "#ff8c37",
+        "#f1c40f",
+        "#33d6a6",
+        "#5bc0de",
+        "#338eda",
+        "#a633d6",
+      ],
+    })
+  }
+
+  useEffect(() => {
+    if (reveal && !hover) {
+      setTimeout(() => {
+        setReveal(false)
+      }, 2000)
+    }
+  }, [reveal, hover])
+
+  const images = [
+    { alt: "Map of Hack Clubs around the world", src: "/home/map.png" },
+    { alt: "Hack Clubbers at SpaceX HQ in LA", src: "/home/zephyr-spacex.jpeg" },
+    { alt: "MA Hacks, Hack Clubber organized hackathon", src: "/hackathons/mahacks.jpeg" },
+    { alt: "AMA with Sal Khan", src: "/home/ama.png" },
+    { alt: "Hack Clubbers at Flagship, 2019", src: "/home/flagship_4.jpg" },
+  ]
+
+  useEffect(() => {
+    if (count === images.length - 1) {
+      setCount(0)
+    }
+  }, [count, images.length])
+
           <Box
             sx={{
               position: 'relative',
